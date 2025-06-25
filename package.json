@@ -1,0 +1,26 @@
+{
+  "name": "devtinder-backend",
+  "version": "1.0.0",
+  "description": "Devtinder\u001b[D\u001b[D\u001b[D\u001b[D\u001b[T\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gokulkandasamy05/DevTinder-Backend.git"
+  },
+  "keywords": [
+    "Javascript",
+    "NodeJS"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gokulkandasamy05/DevTinder-Backend/issues"
+  },
+  "homepage": "https://github.com/gokulkandasamy05/DevTinder-Backend#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
