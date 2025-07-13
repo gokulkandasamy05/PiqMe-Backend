@@ -14,13 +14,19 @@ const userAuth = async (req, res, next) => {
                     req.user = user
                     next()
                 } else {
-                    res.status(401).send('User not found')
+                    res.json({
+                        status: false,
+                        message: 'User not found'
+                    })
                 }
             }
         } else {
-            return res.status(401).send('Unauthorized access, please login first')
+            return res.json({
+                status: false,
+                message: 'Unauthorized access, please login'
+            })
         }
-    }catch(err){
+    } catch (err) {
         return res.status(400).send(err?.message)
     }
 }

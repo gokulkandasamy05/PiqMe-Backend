@@ -46,7 +46,7 @@ userSchema.methods.validatePassword = async function(enteredPassword) {
 
 userSchema.methods.getJwtToken = async function() {
     const user = this
-    const token = await jwt.sign({ _id: user?._id }, 'qwerty$1234', { expiresIn: 60 * 1 })
+    const token = await jwt.sign({ _id: user?._id }, 'qwerty$1234', { expiresIn: 60 * 36000 })
     return token
 }
 
