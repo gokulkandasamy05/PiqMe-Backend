@@ -5,6 +5,7 @@ const User = require('../models/user')
 const { validateProfileData, validatePassword } = require('../utils/validate')
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const { upload } = require('../utils/fileUpload')
 
 profileRouter.get('/profile/view', userAuth, async (req, res) => {
   try {
@@ -26,7 +27,8 @@ profileRouter.get('/profile/view', userAuth, async (req, res) => {
 })
 
 
-profileRouter.patch('/profile/edit', userAuth, async (req, res) => {
+profileRouter.patch('/profile/edit', userAuth, upload.single('image'), async (req, res) => {
+
   try {
     if (!validateProfileData(req)) {
       return res.status(400).send('Invalid Edit Request')
@@ -35,7 +37,7 @@ profileRouter.patch('/profile/edit', userAuth, async (req, res) => {
     const user = req.user
     const body = req.body
     if (body) {
-      await User.findByIdAndUpdate(user?._id, body)
+      await User.findByIdAndUpdate(user?._id, {...body, image: req?.file??{}})
       res.json({
         status: true,
         message: 'Updated Successfully'

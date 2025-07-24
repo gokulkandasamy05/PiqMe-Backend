@@ -14,7 +14,7 @@ const validateSignupData = (data) => {
 
 const validateProfileData = (req) => {
     try {
-        const allowedFields = ['firstName', 'lastName']
+        const allowedFields = ['firstName', 'lastName', 'age', 'gender', 'image', 'about']
         const body = req.body
 
         const { firstName, lastName } = body;

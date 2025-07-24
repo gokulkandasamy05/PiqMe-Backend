@@ -57,7 +57,10 @@ authRouter.post('/login', async (req, res) => {
                     firstName: sendData?.firstName,
                     lastName: sendData?.lastName,
                     emailId: sendData?.emailId,
-                    image: sendData?.image
+                    image: sendData?.image,
+                    about: sendData?.about,
+                    age: sendData?.age,
+                    gender: sendData?.gender,
                 }
             })
         } else {
@@ -74,7 +77,7 @@ authRouter.post('/login', async (req, res) => {
 
 
 
-authRouter.post('/logout', userAuth, async (req, res) => {
+authRouter.post('/logout', async (req, res) => {
     try {
         res.cookie('token', null, {
             expires: new Date(Date.now())

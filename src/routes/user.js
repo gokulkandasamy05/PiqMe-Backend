@@ -13,13 +13,13 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
                 { fromUserId: loggedinUser?._id, status: 'accepted' },
                 { toUserId: loggedinUser?._id, status: 'accepted' }
             ]
-        }).populate('fromUserId', ['firstName', 'lastName']).populate('toUserId', ['firstName', 'lastName'])
-
+        }).populate('fromUserId', ['firstName', 'lastName','about', 'age', 'gender','image']).populate('toUserId', ['firstName', 'lastName','about', 'age', 'gender','image'])
+        
         const data = getAllConnections.map(row => {
             if (row?.fromUserId?._id.toString() === loggedinUser?._id.toString()) {
-                return row?.toUserId
+                return {toUserId: row?.toUserId}
             }
-            return row?.fromUserId
+            return {fromUserId: row?.fromUserId}
         })
 
 
@@ -36,7 +36,7 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
 userRouter.get('/user/requests', userAuth, async (req, res) => {
     try {
         const loggedinUser = req.user
-        const getAllRequests = await connectionRequest.find({ toUserId: loggedinUser?._id, status: 'interested' }).populate('fromUserId', ['firstName', 'lastName'])
+        const getAllRequests = await connectionRequest.find({ toUserId: loggedinUser?._id, status: 'interested' }).populate('fromUserId', ['firstName', 'lastName','about', 'age', 'gender','image'])
         res.json({
             status: true,
             data: getAllRequests
@@ -71,7 +71,7 @@ userRouter.get('/user/feed', userAuth, async (req, res) => {
                 {_id: {$nin: Array.from(hideUsersFromFeed)}},
                 {_id: {$ne: loggedinUser?._id}},
             ]
-        }).select('firstName lastName').limit(30)
+        }).select('firstName lastName image age about gender').limit(30)
 
         res.json({
             status: true,

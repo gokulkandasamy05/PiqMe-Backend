@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         unique: true,
-        validate(value){
-            if(!validator.isEmail(value)){
+        validate(value) {
+            if (!validator.isEmail(value)) {
                 throw new Error('Invalid Email ID')
             }
         }
@@ -31,6 +31,22 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     image: {
+        fieldname: String,
+        originalname: String,
+        encoding: String,
+        mimetype: String,
+        destination: String,
+        filename: String,
+        path: String,
+        size: Number
+    },
+    about: {
+        type: String
+    },
+    age: {
+        type: String
+    },
+    gender: {
         type: String
     }
 }, {
@@ -38,16 +54,16 @@ const userSchema = new mongoose.Schema({
 })
 
 
-userSchema.methods.validatePassword = async function(enteredPassword) {
+userSchema.methods.validatePassword = async function (enteredPassword) {
     const user = this
-    if(user){
+    if (user) {
         let isValidPassword = await bcrypt.compare(enteredPassword, user?.password)
         return isValidPassword
     }
     return false
 }
 
-userSchema.methods.getJwtToken = async function() {
+userSchema.methods.getJwtToken = async function () {
     const user = this
     const token = await jwt.sign({ _id: user?._id }, 'qwerty$1234', { expiresIn: 60 * 36000 })
     return token

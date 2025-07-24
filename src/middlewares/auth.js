@@ -21,8 +21,9 @@ const userAuth = async (req, res, next) => {
                 }
             }
         } else {
-            return res.json({
+            return res.status(501).json({
                 status: false,
+                logout: true,
                 message: 'Unauthorized access, please login'
             })
         }
