@@ -2,7 +2,7 @@ const express = require('express')
 const ConnectionRequest = require('../models/connnectionRequest')
 const { userAuth } = require('../middlewares/auth')
 const User = require('../models/user')
-
+const sendEmail = require('../utils/sendEmail')
 const requestRouter = express.Router()
 
 
@@ -52,9 +52,60 @@ requestRouter.post('/request/send/:status/:userId', userAuth, async (req, res) =
       })
     }
 
-
-
     const connectionRequest = new ConnectionRequest({ fromUserId, toUserId, status })
+    const { firstName, lastName, emailId, image } = req?.user
+
+    const subject = `${isUserExist?.firstName} ${isUserExist?.lastName} sends you a connection request`
+    const htmlBody = `<html>
+  <head>
+    <style>
+      .card {
+        width: 360px;
+        margin: auto;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+      .card-content {
+        padding: 16px;
+      }
+      .card-content h2 {
+        margin: 0 0 10px 0;
+      }
+      .card-content p {
+        color: #444;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Hello! ${firstName} ${lastName}</h1>
+      <img width="150" height="150" src="https://piqme.live/api/uploads/${image?.filename}" alt="Image" />
+      <div class="card-content">
+        <a href="https://piqme.live/connections" class="btn">View on PiqMe</a>
+      </div>
+    </div>
+  </body>
+</ html>`
+
+
+    const toEmailId = isUserExist?.emailId
+    const sendEmailRes = await sendEmail.run(subject, htmlBody, toEmailId)
+
     const data = await connectionRequest.save()
 
     res.json({
@@ -62,6 +113,9 @@ requestRouter.post('/request/send/:status/:userId', userAuth, async (req, res) =
       data: data,
       message: 'Connection send successfully'
     })
+
+
+
   } catch (err) {
     return res.status(400).send(err?.message)
   }
@@ -71,7 +125,7 @@ requestRouter.post('/request/send/:status/:userId', userAuth, async (req, res) =
 
 requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, res) => {
   try {
-    const {requestId, status} = req.params
+    const { requestId, status } = req.params
     const loggedinUser = req?.user
 
 
@@ -85,9 +139,9 @@ requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, r
 
 
     const getConnectionRequest = await ConnectionRequest.findOne({ _id: requestId, toUserId: loggedinUser?._id, status: "interested" })
-    
-    if(!getConnectionRequest){
-      return res.json({status: false, message: "Connection request not found"})
+
+    if (!getConnectionRequest) {
+      return res.json({ status: false, message: "Connection request not found" })
     }
 
     getConnectionRequest.status = status
