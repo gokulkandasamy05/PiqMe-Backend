@@ -105,7 +105,8 @@ requestRouter.post('/request/send/:status/:userId', userAuth, async (req, res) =
 
     const toEmailId = isUserExist?.emailId
     const sendEmailRes = await sendEmail.run(subject, htmlBody, toEmailId)
-
+    console.log(sendEmailRes);
+    
     const data = await connectionRequest.save()
 
     res.json({
