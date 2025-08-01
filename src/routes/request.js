@@ -58,49 +58,94 @@ requestRouter.post('/request/send/:status/:userId', userAuth, async (req, res) =
     const subject = `${isUserExist?.firstName} ${isUserExist?.lastName} sends you a connection request`
     const htmlBody = `<html>
   <head>
+    <meta charset="UTF-8" />
     <style>
-      .card {
-        width: 360px;
-        margin: auto;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f6f9fc;
         font-family: Arial, sans-serif;
       }
-      .card img {
+
+      .email-wrapper {
         width: 100%;
-        height: auto;
+        padding: 40px 0;
+        background-color: #f6f9fc;
       }
-      .card-content {
+
+      .card {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .card-header {
+        background-color: #e60076;
         padding: 16px;
+        color: #ffffff;
+        font-size: 20px;
       }
-      .card-content h2 {
-        margin: 0 0 10px 0;
+
+      .card img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-top: 20px;
       }
+
+      .card-content {
+        padding: 20px;
+      }
+
       .card-content p {
-        color: #444;
+        margin: 10px 0;
+        color: #333;
+        font-size: 16px;
       }
+
       .btn {
         display: inline-block;
-        margin-top: 12px;
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
+        margin-top: 16px;
+        padding: 12px 28px;
+        background: #e60076;
+        color: #ffffff !important;
         text-decoration: none;
-        border-radius: 8px;
+        font-weight: bold;
+        border-radius: 30px;
+        font-size: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s ease;
+      }
+
+
+      @media only screen and (max-width: 480px) {
+        .card {
+          margin: 10px;
+        }
       }
     </style>
   </head>
+
   <body>
-    <div class="card">
-      <h1>Hello! ${firstName} ${lastName}</h1>
-      <img width="150" height="150" src="https://piqme.live/api/uploads/${image?.filename}" alt="Image" />
-      <div class="card-content">
-        <a href="https://piqme.live/connections" class="btn">View on PiqMe</a>
+    <div class="email-wrapper">
+      <div class="card">
+        <div class="card-header">
+          You've received a connection request!
+        </div>
+        <img src="https://piqme.live/api/uploads/${image?.filename}" alt="User Image" />
+        <div class="card-content">
+          <p><strong>${firstName} ${lastName}</strong> wants to connect with you.</p>
+          <a href="https://piqme.live/connections" class="btn">View on PiqMe</a>
+        </div>
       </div>
     </div>
   </body>
-</ html>`
+</html>`
 
 
     const toEmailId = isUserExist?.emailId
