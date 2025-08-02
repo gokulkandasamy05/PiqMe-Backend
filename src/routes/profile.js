@@ -41,9 +41,10 @@ profileRouter.patch('/profile/edit', userAuth, upload.single('image'), async (re
       if(req?.file){
         data['image'] = req?.file
       }
-      await User.findByIdAndUpdate(user?._id, {...data})
+      const response = await User.findByIdAndUpdate(user?._id, {...data})
       res.json({
         status: true,
+        data: response,
         message: 'Updated Successfully'
       })
     }
