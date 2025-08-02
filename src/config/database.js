@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-    await mongoose.connect(`mongodb+srv://gokulkandasamyy:${process.env.MONGO_DB_PASSWORD}@cluster0.sd5cn.mongodb.net/DevTinder`)
+    await mongoose.connect(process.env.MONGODB_CONNECTION)
 }
 module.exports = connectDB;
