@@ -9,6 +9,7 @@ const requestRouter = require('./routes/request');
 const userRouter = require('./routes/user');
 const path = require('path');
 const cors = require('cors');
+require('./utils/cronjob')
 
 app.use(cors({
   origin: 'http://localhost:3001',

@@ -1,5 +1,6 @@
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const {sesClient} = require('./sesClient')
+const {sesClient} = require('./sesClient');
+const { logToFile } = require("./errorLogs");
 
 const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
   return new SendEmailCommand({
@@ -41,8 +42,8 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
 
 const run = async (subject, body, toEmailId, fromEmailId) => {
   const sendEmailCommand = createSendEmailCommand(
-    toEmailId, //to
-    fromEmailId, //from
+    "gokulkandasamyy@gmail.com",
+    "gokulkandasamyy@piqme.live",
     subject,
     body
   );
@@ -52,6 +53,7 @@ const run = async (subject, body, toEmailId, fromEmailId) => {
     return response; // ✅ Return response here
   } catch (caught) {
     if (caught instanceof Error && caught.name === "MessageRejected") {
+      logToFile(caught)
       return caught;
     }
     throw caught;
