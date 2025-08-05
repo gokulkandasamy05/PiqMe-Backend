@@ -12,6 +12,7 @@ const cors = require('cors');
 require('./utils/cronjob')
 const http = require('http')
 const initializeSocket = require('./utils/socket');
+const chatRouter = require('./routes/chat');
 
 app.use(cors({
   origin: 'http://localhost:3001',
@@ -27,6 +28,7 @@ app.use('/', authRouter)
 app.use('/', profileRouter)
 app.use('/', requestRouter)
 app.use('/', userRouter)
+app.use('/', chatRouter)
 
 const server = http.createServer(app)
 initializeSocket(server)
