@@ -10,6 +10,8 @@ const userRouter = require('./routes/user');
 const path = require('path');
 const cors = require('cors');
 require('./utils/cronjob')
+const http = require('http')
+const initializeSocket = require('./utils/socket');
 
 app.use(cors({
   origin: 'http://localhost:3001',
@@ -26,12 +28,15 @@ app.use('/', profileRouter)
 app.use('/', requestRouter)
 app.use('/', userRouter)
 
+const server = http.createServer(app)
+initializeSocket(server)
+
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 connectDB().then(con => {
   console.log('MongoDB connected successfully');
-  app.listen(3000, () => {
+  server.listen(3000, () => {
     console.log('Server is running on port 3000')
   })
 }).catch(err => {
