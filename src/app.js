@@ -13,9 +13,10 @@ require('./utils/cronjob')
 const http = require('http')
 const initializeSocket = require('./utils/socket');
 const chatRouter = require('./routes/chat');
+app.set('trust proxy', true);
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: ['http://localhost:3001', 'https://piqme.live'],
   credentials: true
 }))
 app.use(express.json({limit: '10mb'}))

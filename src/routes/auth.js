@@ -47,8 +47,12 @@ authRouter.post('/login', async (req, res) => {
             const sendData = isUserExist?._doc
 
             res.cookie('token', token, {
-                expires: new Date(Date.now() + 8 * 3600000)
-            })
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                path: '/',
+                maxAge: 8 * 3600000,
+            });
             res.json({
                 status: true,
                 message: 'Logged in successfully',
