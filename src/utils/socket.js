@@ -9,7 +9,7 @@ const getRoomId = (loggedinUserId, id) =>{
 const initializeSocket = (server) => {
     const io = socket(server, {
         cors: {
-            origin: 'http://localhost:3001'
+            origin: ['http://localhost:3001', 'https://piqme.live'],
         }
     });
 
