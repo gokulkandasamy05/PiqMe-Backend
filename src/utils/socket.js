@@ -10,7 +10,7 @@ const initializeSocket = (server) => {
     const io = socket(server, {
         path: "/socket.io",
         cors: {
-            origin: ['http://localhost:3001', 'https://piqme.live'],
+            origin: 'https://piqme.live',
             methods: ["GET", "POST"],
             credentials: true
         }
