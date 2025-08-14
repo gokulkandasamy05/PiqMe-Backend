@@ -19,7 +19,7 @@ app.set('trust proxy', true);
 
 // ✅ Force HTTPS only if not secure and not localhost
 app.use((req, res, next) => {
-  if (!req.secure && req.hostname !== 'localhost') {
+  if (req.get('x-forwarded-proto') !== 'https' && req.hostname !== 'localhost') {
     return res.redirect(301, 'https://' + req.headers.host + req.url);
   }
   next();
