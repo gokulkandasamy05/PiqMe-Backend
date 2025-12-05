@@ -20,6 +20,10 @@ authRouter.post('/signUp', async (req, res) => {
         })
     } catch (err) {
         console.log(err)
+        return res.json({
+                status: false,
+                message: err
+            })
         return res.status(400).send(err?.message)
     }
 })
