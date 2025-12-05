@@ -19,13 +19,13 @@ authRouter.post('/signUp', async (req, res) => {
             message: 'Signed up in successfully'
         })
     } catch (err) {
-        console.log(err)
-        return res.json({
-                status: false,
-                message: err
-            })
-        return res.status(400).send(err?.message)
-    }
+    console.log(err);
+
+    return res.status(400).json({
+        status: false,
+        message: err.message || "Something went wrong"
+    });
+}
 })
 
 
